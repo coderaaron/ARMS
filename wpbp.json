@@ -1,0 +1,60 @@
+{
+  "plugin": {
+    "name": "ARMS",
+    "version": "1.0.0"
+  },
+  "author": {
+    "name": "Aaron Graham",
+    "email": "aaron@coderaaron.com",
+    "url": "http://coderaaron.com",
+    "license": "GPL 2.0+",
+    "copyright": "2023 Aaron Graham"
+  },
+  "public-assets": {
+    "js": "true",
+    "css": "true"
+  },
+  "admin-assets": {
+    "admin-js": "true",
+    "admin-css": "true",
+    "settings-js": "true",
+    "settings-css": "true",
+    "admin-page": "true"
+  },
+  "git-repo": "true",
+  "language-files": "true",
+  "libraries": [
+    "ayecode/wp-super-duper",
+    "origgami/cmb2-grid",
+    "seravo/wp-custom-bulk-actions",
+    "cmb2/cmb2",
+    "johnbillion/extended-cpts",
+    "inpsyde/assets",
+    "stevegrunwell/wp-cache-remember",
+    "wpbp/cpt_columns",
+    "wpbp/cronplus",
+    "wpbp/debug",
+    "wpbp/i18n-notice",
+    "wpbp/page-madness-detector",
+    "wpbp/pointerplus",
+    "wpbp/template",
+    "wpbp/widgets-helper",
+    "micropackage/requirements",
+    "wpdesk/wp-notice",
+    "yahnis-elsts/plugin-update-checker"
+  ],
+  "snippet": {
+    "backend": [
+      "bubble-notification-pending-cpt",
+      "block"
+    ],
+    "frontend": [
+      "body-class",
+      "cpt-search-support"
+    ],
+    "system": [
+      "capability-system",
+      "rest"
+    ]
+  }
+}
