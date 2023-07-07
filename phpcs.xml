@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<ruleset name="ARMS coding standards">
+    <!-- Set the default standard to WordPress-Extra -->
+    <rule ref="WordPress-Extra">
+        <!-- Exclude the yoda conditions sniff -->
+        <exclude name="WordPress.PHP.YodaConditions"/>
+    </rule>
+
+    <!-- Your custom rules and configurations go here -->
+</ruleset>
