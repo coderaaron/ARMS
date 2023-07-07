@@ -77,7 +77,7 @@ class PostTypes extends Base {
 	 * @return \WP_Query
 	 */
 	public function filter_search( \WP_Query $query ) {
-		if ( $query->is_search && !\is_admin() ) {
+		if ( $query->is_search && ! \is_admin() ) {
 			$post_types = $query->get( 'post_type' );
 
 			if ( 'post' === $post_types ) {
@@ -98,42 +98,42 @@ class PostTypes extends Base {
 	public function load_cpts() { //phpcs:ignore
 		// Create Custom Post Type https://github.com/johnbillion/extended-cpts/wiki
 		$demo_cpt = \register_extended_post_type(
-				'demo',
-				array(
-					// Show all posts on the post type archive:
-					'archive'            => array(
-						'nopaging' => true,
+			'demo',
+			array(
+				// Show all posts on the post type archive:
+				'archive'            => array(
+					'nopaging' => true,
+				),
+				'slug'               => 'demo',
+				'show_in_rest'       => true,
+				'dashboard_activity' => true,
+
+				// Add some custom columns to the admin screen
+				'admin_cols'         => array(
+					'featured_image' => array(
+						'title'          => 'Featured Image',
+						'featured_image' => 'thumbnail',
 					),
-					'slug'               => 'demo',
-					'show_in_rest'       => true,
-					'dashboard_activity' => true,
-					'capability_type'    => array( 'demo', 'demoes' ),
-					// Add some custom columns to the admin screen
-					'admin_cols'         => array(
-						'featured_image' => array(
-							'title'          => 'Featured Image',
-							'featured_image' => 'thumbnail',
-						),
-						'title',
-						'genre'          => array(
-							'taxonomy' => 'demo-section',
-						),
-						'custom_field'   => array(
-							'title'    => 'By Lib',
-							'meta_key' => '_demo_' . A_TEXTDOMAIN . '_text', // phpcs:ignore
-							'cap'      => 'manage_options',
-						),
-						'date'           => array(
-							'title'   => 'Date',
-							'default' => 'ASC',
-						),
+					'title',
+					'genre'          => array(
+						'taxonomy' => 'demo-section',
 					),
-					// Add a dropdown filter to the admin screen:
-					'admin_filters'      => array(
-						'genre' => array(
-							'taxonomy' => 'demo-section',
-						),
+					'custom_field'   => array(
+						'title'    => 'By Lib',
+						'meta_key' => '_demo_' . A_TEXTDOMAIN . '_text', // phpcs:ignore
+						'cap'      => 'manage_options',
 					),
+					'date'           => array(
+						'title'   => 'Date',
+						'default' => 'ASC',
+					),
+				),
+				// Add a dropdown filter to the admin screen:
+				'admin_filters'      => array(
+					'genre' => array(
+						'taxonomy' => 'demo-section',
+					),
+				),
 			),
 			array(
 				// Override the base names used for labels:
@@ -142,7 +142,13 @@ class PostTypes extends Base {
 			)
 		);
 
-		$demo_cpt->add_taxonomy( 'demo-section', array( 'hierarchical' => false, 'show_ui' => false ) );
+		$demo_cpt->add_taxonomy(
+			'demo-section',
+			array(
+				'hierarchical' => false,
+				'show_ui'      => false,
+			)
+		);
 		// Create Custom Taxonomy https://github.com/johnbillion/extended-taxos
 		\register_extended_taxonomy(
 			'demo-section',
@@ -191,14 +197,14 @@ class PostTypes extends Base {
 		$post_types = array( 'demo' );
 
 		foreach ( $post_types as $type ) {
-			if ( !\post_type_exists( $type ) ) {
+			if ( ! \post_type_exists( $type ) ) {
 				continue;
 			}
 
 			// Count posts
 			$cpt_count = \wp_count_posts( $type );
 
-			if ( !$cpt_count->pending ) {
+			if ( ! $cpt_count->pending ) {
 				continue;
 			}
 
@@ -206,12 +212,12 @@ class PostTypes extends Base {
 			$key = self::recursive_array_search_php( 'edit.php?post_type=' . $type, $menu );
 
 			// Not found, just in case
-			if ( !$key ) {
+			if ( ! $key ) {
 				return;
 			}
 
 			// Modify menu item
-			$menu[ $key ][ 0 ] .= \sprintf( //phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
+			$menu[ $key ][0] .= \sprintf( //phpcs:ignore WordPress.WP.GlobalVariablesOverride.Prohibited
 				'<span class="update-plugins count-%1$s"><span class="plugin-count">%1$s</span></span>',
 				$cpt_count->pending
 			);

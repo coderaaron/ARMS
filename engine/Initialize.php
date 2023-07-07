@@ -47,7 +47,7 @@ class Initialize {
 	 * @since 1.0.0
 	 */
 	public function __construct( \Composer\Autoload\ClassLoader $composer ) {
-		$this->content  = new Engine\Context;
+		$this->content  = new Engine\Context();
 		$this->composer = $composer;
 
 		$this->get_classes( 'Internals' );
@@ -56,7 +56,6 @@ class Initialize {
 		if ( $this->content->request( 'rest' ) ) {
 			$this->get_classes( 'Rest' );
 		}
-
 
 		if ( $this->content->request( 'backend' ) ) {
 			$this->get_classes( 'Backend' );
@@ -106,9 +105,9 @@ class Initialize {
 			return;
 		}
 
-		$temp = new $classtovalidate;
+		$temp = new $classtovalidate();
 
-		if ( !\method_exists( $temp, 'initialize' ) ) {
+		if ( ! \method_exists( $temp, 'initialize' ) ) {
 			return;
 		}
 
@@ -128,7 +127,7 @@ class Initialize {
 		$namespacetofind = 'ARMS\\' . $namespacetofind;
 
 		// In case composer has autoload optimized
-		if ( isset( $classmap[ 'ARMS\\Engine\\Initialize' ] ) ) {
+		if ( isset( $classmap['ARMS\\Engine\\Initialize'] ) ) {
 			$classes = \array_keys( $classmap );
 
 			foreach ( $classes as $class ) {
@@ -150,7 +149,7 @@ class Initialize {
 			$php_files = $this->scandir( $folder );
 			$this->find_classes( $php_files, $folder, $namespacetofind );
 
-			if ( !WP_DEBUG ) {
+			if ( ! WP_DEBUG ) {
 				\wp_die( \esc_html__( 'ARMS is on production environment with missing `composer dumpautoload -o` that will improve the performance on autoloading itself.', A_TEXTDOMAIN ) );
 			}
 
@@ -220,7 +219,7 @@ class Initialize {
 				continue;
 			}
 
-			if ( !\is_dir( $path ) || \strtolower( $php_file ) === $php_file ) {
+			if ( ! \is_dir( $path ) || \strtolower( $php_file ) === $php_file ) {
 				continue;
 			}
 

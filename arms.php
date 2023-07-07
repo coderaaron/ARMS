@@ -22,7 +22,7 @@
  */
 
 // If this file is called directly, abort.
-if ( !defined( 'ABSPATH' ) ) {
+if ( ! defined( 'ABSPATH' ) ) {
 	die( 'We\'re sorry, but you can not directly access this file.' );
 }
 
@@ -31,7 +31,7 @@ define( 'A_TEXTDOMAIN', 'arms' );
 define( 'A_NAME', 'ARMS' );
 define( 'A_PLUGIN_ROOT', plugin_dir_path( __FILE__ ) );
 define( 'A_PLUGIN_ABSOLUTE', __FILE__ );
-define( 'A_MIN_PHP_VERSION', '7.4' );
+define( 'A_MIN_PHP_VERSION', '8.0' );
 define( 'A_WP_VERSION', '5.3' );
 
 add_action(
@@ -39,7 +39,7 @@ add_action(
 	static function () {
 		load_plugin_textdomain( A_TEXTDOMAIN, false, dirname( plugin_basename( __FILE__ ) ) . '/languages' );
 	}
-	);
+);
 
 if ( version_compare( PHP_VERSION, A_MIN_PHP_VERSION, '<=' ) ) {
 	add_action(
@@ -52,10 +52,10 @@ if ( version_compare( PHP_VERSION, A_MIN_PHP_VERSION, '<=' ) ) {
 		'admin_notices',
 		static function() {
 			echo wp_kses_post(
-			sprintf(
-				'<div class="notice notice-error"><p>%s</p></div>',
-				__( '"ARMS" requires PHP 5.6 or newer.', A_TEXTDOMAIN )
-			)
+				sprintf(
+					'<div class="notice notice-error"><p>%s</p></div>',
+					__( '"ARMS" requires PHP 5.6 or newer.', A_TEXTDOMAIN )
+				)
 			);
 		}
 	);
@@ -95,8 +95,6 @@ if ( ! $requirements->satisfied() ) {
 Puc_v4_Factory::buildUpdateChecker( 'https://github.com/user-name/repo-name/', __FILE__, 'unique-plugin-or-theme-slug' );
 
 if ( ! wp_installing() ) {
-	register_activation_hook( A_TEXTDOMAIN . '/' . A_TEXTDOMAIN . '.php', array( new \ARMS\Backend\ActDeact, 'activate' ) );
-	register_deactivation_hook( A_TEXTDOMAIN . '/' . A_TEXTDOMAIN . '.php', array( new \ARMS\Backend\ActDeact, 'deactivate' ) );
 	add_action(
 		'plugins_loaded',
 		static function () use ( $arms_libraries ) {
