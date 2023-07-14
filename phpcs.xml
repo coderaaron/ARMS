@@ -4,6 +4,8 @@
     <rule ref="WordPress-Extra">
         <!-- Exclude the yoda conditions sniff -->
         <exclude name="WordPress.PHP.YodaConditions"/>
+		<exclude name="WordPress.WP.I18n.NonSingularStringLiteralDomain"/>
+		<exclude name="WordPress.Files.FileName"/>
     </rule>
 
     <!-- Your custom rules and configurations go here -->

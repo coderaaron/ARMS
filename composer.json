@@ -33,7 +33,8 @@
         "wpbp/template": "1.0.*",
         "wpbp/widgets-helper": "1.0.*",
         "wpdesk/wp-notice": "^3.2",
-        "yahnis-elsts/plugin-update-checker": "^4.9"
+        "yahnis-elsts/plugin-update-checker": "^4.9",
+        "wpackagist-plugin/cmb2-admin-extension": "^0.2.3"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.6"
@@ -42,6 +43,14 @@
         {
             "type": "git",
             "url": "https://github.com/ayecode/wp-super-duper"
+        },
+		{
+            "type":"composer",
+            "url":"https://wpackagist.org",
+            "only": [
+                "wpackagist-plugin/*",
+                "wpackagist-theme/*"
+            ]
         }
     ],
     "minimum-stability": "dev",
@@ -56,7 +65,8 @@
             "ARMS\\Engine\\": "engine/"
         },
         "files": [
-            "vendor/wp-custom-bulk-actions/custom-bulk-actions.php"
+            "vendor/wp-custom-bulk-actions/custom-bulk-actions.php",
+			"vendor/cmb2-admin-extension/cmb2-admin-extension.php"
         ]
     },
     "config": {
@@ -74,7 +84,9 @@
                 "cmb2/cmb2",
                 "origgami/cmb2-grid",
                 "stevegrunwell/wp-cache-remember",
-                "seravo/wp-custom-bulk-actions"
+                "seravo/wp-custom-bulk-actions",
+				"wpackagist-plugin/required-taxonomies",
+				"type:wordpress-plugin"
             ]
         },
         "patches": {

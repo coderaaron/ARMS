@@ -1,1 +1,1 @@
-(()=>{"use strict";jQuery((()=>{}))})();
+(()=>{"use strict";var e;(e=jQuery)((()=>{e("#_pet_data_special-needs").is(":checked")||e(".cmb2-id--pet-data-special-needs-description").hide(),e("#_pet_data_special-needs").on("change",(function(){e(".cmb2-id--pet-data-special-needs-description").toggle()}))}))})();

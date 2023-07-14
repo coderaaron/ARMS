@@ -31,32 +31,33 @@ class PostTypes extends Base {
 		/*
 		 * Custom Columns
 		 */
-		$post_columns = new \CPT_columns( 'demo' );
+		$post_columns = new \CPT_columns( 'pet' );
 		$post_columns->add_column(
 			'cmb2_field',
 			array(
-				'label'    => \__( 'CMB2 Field', A_TEXTDOMAIN ),
-				'type'     => 'post_meta',
-				'meta_key' => '_demo_' . A_TEXTDOMAIN . '_text', // phpcs:ignore WordPress.DB
+				'label'    => \__( 'Pet Status', A_TEXTDOMAIN ),
+				'type'     => 'custom_value',
+				'meta_key' => '_pet_data_primary-pet-status', // phpcs:ignore WordPress.DB
+				'callback' => array( $this, 'decode_pet_status' ),
 				'orderby'  => 'meta_value',
 				'sortable' => true,
 				'prefix'   => '<b>',
 				'suffix'   => '</b>',
-				'def'      => 'Not defined', // Default value in case post meta not found
 				'order'    => '-1',
 			)
 		);
+
 		/*
 		 * Custom Bulk Actions
 		 */
-		$bulk_actions = new \Seravo_Custom_Bulk_Action( array( 'post_type' => 'demo' ) );
+		$bulk_actions = new \Seravo_Custom_Bulk_Action( array( 'post_type' => 'pet' ) );
 		$bulk_actions->register_bulk_action(
 			array(
 				'menu_text'    => 'Mark meta',
 				'admin_notice' => 'Written something on custom bulk meta',
 				'callback'     => static function( $post_ids ) {
 					foreach ( $post_ids as $post_id ) {
-						\update_post_meta( $post_id, '_demo_' . A_TEXTDOMAIN . '_text', 'Random stuff' );
+						\update_post_meta( $post_id, '_pet_' . A_TEXTDOMAIN . '_text', 'Random stuff' );
 					}
 
 					return true;
@@ -67,6 +68,24 @@ class PostTypes extends Base {
 		// Add bubble notification for cpt pending
 		\add_action( 'admin_menu', array( $this, 'pending_cpt_bubble' ), 999 );
 		\add_filter( 'pre_get_posts', array( $this, 'filter_search' ) );
+	}
+
+	public function decode_pet_status( $post_id ) {
+		$value    = \get_post_meta( $post_id, '_pet_data_primary-pet-status', true ); // phpcs:ignore WordPress.DB
+		$statuses = array(
+			'c' => 'Created',
+			'q' => 'Quarantined',
+			'v' => 'Available',
+			's' => 'Sidelined',
+			'a' => 'Adopted',
+			'd' => 'Deceased',
+			'r' => 'Other',
+			'p' => 'Adoption Pending',
+			't' => 'Transferred Out of KAR',
+			'u' => 'Returned to Relinquisher',
+		);
+
+		return $statuses[ $value ];
 	}
 
 	/**
@@ -82,7 +101,7 @@ class PostTypes extends Base {
 
 			if ( 'post' === $post_types ) {
 				$post_types = array( $post_types );
-				$query->set( 'post_type', \array_push( $post_types, array( 'demo' ) ) );
+				$query->set( 'post_type', \array_push( $post_types, array( 'pet' ) ) );
 			}
 		}
 
@@ -97,14 +116,14 @@ class PostTypes extends Base {
 	 */
 	public function load_cpts() { //phpcs:ignore
 		// Create Custom Post Type https://github.com/johnbillion/extended-cpts/wiki
-		$demo_cpt = \register_extended_post_type(
-			'demo',
+		$pet_cpt = \register_extended_post_type(
+			'pet',
 			array(
 				// Show all posts on the post type archive:
 				'archive'            => array(
 					'nopaging' => true,
 				),
-				'slug'               => 'demo',
+				'slug'               => 'pet',
 				'show_in_rest'       => true,
 				'dashboard_activity' => true,
 
@@ -116,12 +135,7 @@ class PostTypes extends Base {
 					),
 					'title',
 					'genre'          => array(
-						'taxonomy' => 'demo-section',
-					),
-					'custom_field'   => array(
-						'title'    => 'By Lib',
-						'meta_key' => '_demo_' . A_TEXTDOMAIN . '_text', // phpcs:ignore
-						'cap'      => 'manage_options',
+						'taxonomy' => 'pet-type',
 					),
 					'date'           => array(
 						'title'   => 'Date',
@@ -131,19 +145,19 @@ class PostTypes extends Base {
 				// Add a dropdown filter to the admin screen:
 				'admin_filters'      => array(
 					'genre' => array(
-						'taxonomy' => 'demo-section',
+						'taxonomy' => 'pet-type',
 					),
 				),
 			),
 			array(
 				// Override the base names used for labels:
-				'singular' => \__( 'Demo', A_TEXTDOMAIN ),
-				'plural'   => \__( 'Demos', A_TEXTDOMAIN ),
+				'singular' => \__( 'Pet', A_TEXTDOMAIN ),
+				'plural'   => \__( 'Pets', A_TEXTDOMAIN ),
 			)
 		);
 
-		$demo_cpt->add_taxonomy(
-			'demo-section',
+		$pet_cpt->add_taxonomy(
+			'pet-type',
 			array(
 				'hierarchical' => false,
 				'show_ui'      => false,
@@ -151,33 +165,22 @@ class PostTypes extends Base {
 		);
 		// Create Custom Taxonomy https://github.com/johnbillion/extended-taxos
 		\register_extended_taxonomy(
-			'demo-section',
-			'demo',
+			'pet-type',
+			'pet',
 			array(
 				// Use radio buttons in the meta box for this taxonomy on the post editing screen:
 				'meta_box'         => 'radio',
+				'default_term'     => 'cat',
 				// Show this taxonomy in the 'At a Glance' dashboard widget:
 				'dashboard_glance' => true,
-				// Add a custom column to the admin screen:
-				'admin_cols'       => array(
-					'featured_image' => array(
-						'title'          => 'Featured Image',
-						'featured_image' => 'thumbnail',
-					),
-				),
-				'slug'             => 'demo-cat',
+				'slug'             => 'pet-type',
 				'show_in_rest'     => true,
-				'capabilities'     => array(
-					'manage_terms' => 'manage_demoes',
-					'edit_terms'   => 'manage_demoes',
-					'delete_terms' => 'manage_demoes',
-					'assign_terms' => 'read_demo',
-				),
+				'required'         => true,
 			),
 			array(
 				// Override the base names used for labels:
-				'singular' => \__( 'Demo Category', A_TEXTDOMAIN ),
-				'plural'   => \__( 'Demo Categories', A_TEXTDOMAIN ),
+				'singular' => \__( 'Pet Type', A_TEXTDOMAIN ),
+				'plural'   => \__( 'Pet Types', A_TEXTDOMAIN ),
 			)
 		);
 	}
@@ -194,7 +197,7 @@ class PostTypes extends Base {
 	public function pending_cpt_bubble() {
 		global $menu;
 
-		$post_types = array( 'demo' );
+		$post_types = array( 'pet' );
 
 		foreach ( $post_types as $type ) {
 			if ( ! \post_type_exists( $type ) ) {
