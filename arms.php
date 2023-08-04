@@ -8,8 +8,8 @@
  * @link      http://coderaaron.com
  *
  * Plugin Name:     ARMS
- * Plugin URI:      @TODO
- * Description:     @TODO
+ * Plugin URI:      http://coderaaron.com
+ * Description:     Animal Rescue Management System - Based off of the original KAMS that I wrote for the Kalamazoo Animal Rescue in 2008.
  * Version:         1.0.0
  * Author:          Aaron Graham
  * Author URI:      http://coderaaron.com
