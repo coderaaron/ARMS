@@ -45,7 +45,7 @@
             "type": "git",
             "url": "https://github.com/ayecode/wp-super-duper"
         },
-		{
+        {
             "type":"composer",
             "url":"https://wpackagist.org",
             "only": [
@@ -67,9 +67,9 @@
         },
         "files": [
             "vendor/wp-custom-bulk-actions/custom-bulk-actions.php",
-			"vendor/cmb2-conditionals/cmb2-conditionals.php",
-			"vendor/cmb2-user-select/cmb2-user-select.php",
-			"vendor/multiple-roles/multiple-roles.php"
+            "vendor/cmb2-conditionals/cmb2-conditionals.php",
+            "vendor/cmb2-user-select/cmb2-user-select.php",
+            "vendor/multiple-roles/multiple-roles.php"
         ]
     },
     "config": {
@@ -88,8 +88,8 @@
                 "origgami/cmb2-grid",
                 "stevegrunwell/wp-cache-remember",
                 "seravo/wp-custom-bulk-actions",
-				"wpackagist-plugin/required-taxonomies",
-				"type:wordpress-plugin"
+                "wpackagist-plugin/required-taxonomies",
+                "type:wordpress-plugin"
             ]
         },
         "patches": {
