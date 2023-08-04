@@ -3,7 +3,25 @@
 
 // This stylesheet is used to style the admin of WordPress.
 
-// Dashboard
-#dashboard_right_now a.demo-count::before {
-	content: "\f115";
+/* stylelint-disable-next-line selector-class-pattern */
+.cmb2GridRow input[type="text"].cmb2-text-money {
+	width: auto;
+}
+
+.cmb-th + .cmb-td {
+	padding-top: 0;
+	padding-left: 0;
+}
+
+.cmb-th:has(+ .cmb-td) {
+	padding-bottom: 0;
+}
+
+/* stylelint-disable-next-line selector-id-pattern */
+#cmb2-metabox-_arms_pet_datametabox {
+
+	ul {
+		column-count: 3;
+
+	}
 }

@@ -29,7 +29,7 @@ class Enqueue extends Base {
 	 * @return void|bool
 	 */
 	public function initialize() {
-		if ( !parent::initialize() ) {
+		if ( ! parent::initialize() ) {
 			return;
 		}
 
@@ -46,7 +46,7 @@ class Enqueue extends Base {
 		// Load admin style sheet and JavaScript.
 		$assets = $this->enqueue_admin_styles();
 
-		if ( !empty( $assets ) ) {
+		if ( ! empty( $assets ) ) {
 			foreach ( $assets as $asset ) {
 				$asset_manager->register( $asset );
 			}
@@ -54,12 +54,11 @@ class Enqueue extends Base {
 
 		$assets = $this->enqueue_admin_scripts();
 
-		if ( !empty( $assets ) ) {
+		if ( ! empty( $assets ) ) {
 			foreach ( $assets as $asset ) {
 				$asset_manager->register( $asset );
 			}
 		}
-
 	}
 
 	/**
@@ -72,7 +71,7 @@ class Enqueue extends Base {
 		$admin_page = \get_current_screen();
 		$styles     = array();
 
-		if ( !\is_null( $admin_page ) && 'toplevel_page_arms' === $admin_page->id ) {
+		if ( ! \is_null( $admin_page ) && 'toplevel_page_arms' === $admin_page->id ) {
 			$styles[0] = new Style( A_TEXTDOMAIN . '-settings-style', \plugins_url( 'assets/build/plugin-settings.css', A_PLUGIN_ABSOLUTE ) );
 			$styles[0]->forLocation( Asset::BACKEND )->withVersion( A_VERSION );
 			$styles[0]->withDependencies( 'dashicons' );
@@ -95,7 +94,7 @@ class Enqueue extends Base {
 		$admin_page = \get_current_screen();
 		$scripts    = array();
 
-		if ( !\is_null( $admin_page ) && 'toplevel_page_arms' === $admin_page->id ) {
+		if ( ! \is_null( $admin_page ) && 'toplevel_page_arms' === $admin_page->id ) {
 			$scripts[0] = new Script( A_TEXTDOMAIN . '-settings-script', \plugins_url( 'assets/build/plugin-settings.js', A_PLUGIN_ABSOLUTE ) );
 			$scripts[0]->forLocation( Asset::BACKEND )->withVersion( A_VERSION );
 			$scripts[0]->withDependencies( 'jquery-ui-tabs' );
@@ -107,6 +106,13 @@ class Enqueue extends Base {
 		}
 
 		$scripts[1] = new Script( A_TEXTDOMAIN . '-settings-admin', \plugins_url( 'assets/build/plugin-admin.js', A_PLUGIN_ABSOLUTE ) );
+		$scripts[1]->withLocalize(
+			'petData',
+			array(
+				'ajax_url' => \admin_url( 'admin-ajax.php' ),
+				'nonce'    => \wp_create_nonce( 'pet_data_get_child_terms' ),
+			)
+		);
 		$scripts[1]->forLocation( Asset::BACKEND )->withVersion( A_VERSION );
 		$scripts[1]->dependencies();
 

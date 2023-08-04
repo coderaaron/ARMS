@@ -23,9 +23,7 @@ import { blockIcon } from './utils';
 /**
  * The block configuration
  */
-const blockConfig = /** @type {BlockConfig} */ (
-	require( '../../block.json' )
-);
+const blockConfig = /** @type {BlockConfig} */ ( require( './block.json' ) );
 
 /**
  * Register the block

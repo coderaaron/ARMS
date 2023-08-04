@@ -1,0 +1,16 @@
+{
+	"apiVersion": 2,
+	"name": "arms/meta-block",
+	"category": "arms",
+	"attributes": {
+		"meta": {
+			"type": "string"
+		}
+	},
+	"supports": {
+		"html": false
+	},
+	"script": "file:../../../build/arms-meta-block.js",
+	"editorStyle": "file:../../../build/arms-meta-block.css",
+	"style": "file:../../../build/style-arms-meta-block.css"
+}

@@ -2,10 +2,10 @@
 	"apiVersion": 2,
 	"name": "arms/block-name",
 	"title": "block_name",
-	"category": "text",
-	"editorScript": "file:./build/plugin-block.js",
-	"editorStyle": "file:./build/plugin-block.css",
-	"style": "file:./build/plugin-block.css",
+	"category": "arms",
+	"editorScript": "file:../../../build/block.js",
+	"editorStyle": "file:../../../build/block.css",
+	"style": "file:../../../build/block.css",
 	"attributes": {
 		"style": {
 			"type": "object",

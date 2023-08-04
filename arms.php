@@ -92,9 +92,11 @@ if ( ! $requirements->satisfied() ) {
 
 
 // Documentation to integrate GitHub, GitLab or BitBucket https://github.com/YahnisElsts/plugin-update-checker/blob/master/README.md
-Puc_v4_Factory::buildUpdateChecker( 'https://github.com/user-name/repo-name/', __FILE__, 'unique-plugin-or-theme-slug' );
+//Puc_v4_Factory::buildUpdateChecker( 'https://github.com/user-name/repo-name/', __FILE__, 'unique-plugin-or-theme-slug' );
 
 if ( ! wp_installing() ) {
+	register_activation_hook( __FILE__, array( new \ARMS\Backend\ActDeact, 'activate' ) );
+	register_deactivation_hook( __FILE__, array( new \ARMS\Backend\ActDeact, 'deactivate' ) );
 	add_action(
 		'plugins_loaded',
 		static function () use ( $arms_libraries ) {

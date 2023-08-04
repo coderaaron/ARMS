@@ -25,7 +25,7 @@ class Settings_Page extends Base {
 	 * @return void|bool
 	 */
 	public function initialize() {
-		if ( !parent::initialize() ) {
+		if ( ! parent::initialize() ) {
 			return;
 		}
 

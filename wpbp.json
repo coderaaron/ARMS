@@ -14,6 +14,10 @@
     "js": "true",
     "css": "true"
   },
+  "act-deact": {
+    "actdeact": "true",
+    "uninstall": "true"
+  },
   "admin-assets": {
     "admin-js": "true",
     "admin-css": "true",
@@ -31,7 +35,6 @@
     "johnbillion/extended-cpts",
     "inpsyde/assets",
     "stevegrunwell/wp-cache-remember",
-    "wpbp/cpt_columns",
     "wpbp/cronplus",
     "wpbp/debug",
     "wpbp/i18n-notice",

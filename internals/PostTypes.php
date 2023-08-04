@@ -28,29 +28,31 @@ class PostTypes extends Base {
 		parent::initialize();
 
 		\add_action( 'init', array( $this, 'load_cpts' ) );
-		/*
-		 * Custom Columns
-		 */
-		$post_columns = new \CPT_columns( 'pet' );
-		$post_columns->add_column(
-			'cmb2_field',
-			array(
-				'label'    => \__( 'Pet Status', A_TEXTDOMAIN ),
-				'type'     => 'custom_value',
-				'meta_key' => '_pet_data_primary-pet-status', // phpcs:ignore WordPress.DB
-				'callback' => array( $this, 'decode_pet_status' ),
-				'orderby'  => 'meta_value',
-				'sortable' => true,
-				'prefix'   => '<b>',
-				'suffix'   => '</b>',
-				'order'    => '-1',
-			)
-		);
+
+		/* \add_action(
+			'init',
+			function () {
+				register_post_meta(
+					'post',
+					'myguten_meta_block_field',
+					array(
+						'show_in_rest' => true,
+						'single'       => true,
+						'type'         => 'string',
+					)
+				);
+				$post_type_object                = get_post_type_object( 'post' );
+				$post_type_object->template      = array(
+					array( 'arms/meta-block' ),
+				);
+				//$post_type_object->template_lock = 'all';
+			}
+		); */
 
 		/*
 		 * Custom Bulk Actions
 		 */
-		$bulk_actions = new \Seravo_Custom_Bulk_Action( array( 'post_type' => 'pet' ) );
+		/* $bulk_actions = new \Seravo_Custom_Bulk_Action( array( 'post_type' => 'pet' ) );
 		$bulk_actions->register_bulk_action(
 			array(
 				'menu_text'    => 'Mark meta',
@@ -64,11 +66,12 @@ class PostTypes extends Base {
 				},
 			)
 		);
-		$bulk_actions->init();
+		$bulk_actions->init(); */
 		// Add bubble notification for cpt pending
 		\add_action( 'admin_menu', array( $this, 'pending_cpt_bubble' ), 999 );
 		\add_filter( 'pre_get_posts', array( $this, 'filter_search' ) );
 	}
+
 
 	public function decode_pet_status( $post_id ) {
 		$value    = \get_post_meta( $post_id, '_pet_data_primary-pet-status', true ); // phpcs:ignore WordPress.DB
@@ -126,7 +129,7 @@ class PostTypes extends Base {
 				'slug'               => 'pet',
 				'show_in_rest'       => true,
 				'dashboard_activity' => true,
-
+				'menu_icon'          => 'dashicons-pets',
 				// Add some custom columns to the admin screen
 				'admin_cols'         => array(
 					'featured_image' => array(
@@ -156,21 +159,13 @@ class PostTypes extends Base {
 			)
 		);
 
+		// Create Custom Taxonomy https://github.com/johnbillion/extended-taxos
 		$pet_cpt->add_taxonomy(
 			'pet-type',
 			array(
-				'hierarchical' => false,
-				'show_ui'      => false,
-			)
-		);
-		// Create Custom Taxonomy https://github.com/johnbillion/extended-taxos
-		\register_extended_taxonomy(
-			'pet-type',
-			'pet',
-			array(
 				// Use radio buttons in the meta box for this taxonomy on the post editing screen:
 				'meta_box'         => 'radio',
-				'default_term'     => 'cat',
+				//'default_term'     => 'cat',
 				// Show this taxonomy in the 'At a Glance' dashboard widget:
 				'dashboard_glance' => true,
 				'slug'             => 'pet-type',
@@ -181,6 +176,42 @@ class PostTypes extends Base {
 				// Override the base names used for labels:
 				'singular' => \__( 'Pet Type', A_TEXTDOMAIN ),
 				'plural'   => \__( 'Pet Types', A_TEXTDOMAIN ),
+			)
+		);
+		$pet_cpt->add_taxonomy(
+			'pet-status',
+			array(
+				// Use radio buttons in the meta box for this taxonomy on the post editing screen:
+				'meta_box'         => 'radio',
+				//'default_term'     => 'created',
+				// Show this taxonomy in the 'At a Glance' dashboard widget:
+				'dashboard_glance' => true,
+				'slug'             => 'pet-status',
+				'show_in_rest'     => true,
+				'required'         => true,
+			),
+			array(
+				// Override the base names used for labels:
+				'singular' => \__( 'Pet Status', A_TEXTDOMAIN ),
+				'plural'   => \__( 'Pet Statuses', A_TEXTDOMAIN ),
+			)
+		);
+		$pet_cpt->add_taxonomy(
+			'pet-gender',
+			array(
+				// Use radio buttons in the meta box for this taxonomy on the post editing screen:
+				'meta_box'         => 'radio',
+				//'default_term'     => 'female',
+				// Show this taxonomy in the 'At a Glance' dashboard widget:
+				'dashboard_glance' => true,
+				'slug'             => 'pet-gender',
+				'show_in_rest'     => true,
+				'required'         => true,
+			),
+			array(
+				// Override the base names used for labels:
+				'singular' => \__( 'Pet Gender', A_TEXTDOMAIN ),
+				'plural'   => \__( 'Pet Genders', A_TEXTDOMAIN ),
 			)
 		);
 	}

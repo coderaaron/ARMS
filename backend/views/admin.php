@@ -21,16 +21,11 @@
 		<ul>
 			<li><a href="#tabs-1"><?php esc_html_e( 'Settings', A_TEXTDOMAIN ); ?></a></li>
 			<li><a href="#tabs-2"><?php esc_html_e( 'Settings 2', A_TEXTDOMAIN ); ?></a></li>
-			<?php
-			?>
-		</ul>
+					</ul>
 		<?php
 		require_once plugin_dir_path( __FILE__ ) . 'settings.php';
-		require_once plugin_dir_path( __FILE__ ) . 'settings-2.php';
 		?>
-		<?php
-		?>
-	</div>
+			</div>
 
 	<div class="right-column-settings-page metabox-holder">
 		<div class="postbox">
