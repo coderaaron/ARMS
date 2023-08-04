@@ -39,3 +39,6 @@ tests/_output/
 arms/vendor/
 tests/_support/_generated/
 arms/assets/build/
+
+# Packaged plugin
+arms.zip
